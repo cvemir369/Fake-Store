@@ -48,6 +48,11 @@ function App() {
     setCart(updatedCart);
   };
 
+  const handleRemoveFromCart = (productId) => {
+    const updatedCart = cart.filter((item) => item.id !== productId);
+    setCart(updatedCart);
+  };
+
   const getCartCount = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
@@ -77,7 +82,12 @@ function App() {
             />
           }
         />
-        <Route path="cart" element={<Cart cart={cart} />} />
+        <Route
+          path="/cart"
+          element={
+            <Cart cart={cart} handleRemoveFromCart={handleRemoveFromCart} />
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
