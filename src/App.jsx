@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 function App() {
   const [allProducts, setAllProducts] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const getAllProducts = async () => {
     try {
@@ -33,6 +34,30 @@ function App() {
     }
   };
 
+  const handleAddCart = (product, quantity) => {
+    const updatedCart = [...cart];
+    const productIndex = updatedCart.findIndex(
+      (item) => item.id === product.id
+    );
+
+    if (productIndex >= 0) {
+      updatedCart[productIndex].quantity += quantity;
+    } else {
+      updatedCart.push({ ...product, quantity });
+    }
+    setCart(updatedCart);
+  };
+
+  const getCartCount = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const getCartTotal = () => {
+    return cart
+      .reduce((total, item) => total + item.quantity * item.price, 0)
+      .toFixed(2);
+  };
+
   useEffect(() => {
     getAllProducts();
     getAllCategories();
@@ -40,15 +65,19 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
       <Routes>
         <Route
           path="/"
           element={
-            <Home allProducts={allProducts} allCategories={allCategories} />
+            <Home
+              allProducts={allProducts}
+              allCategories={allCategories}
+              handleAddCart={handleAddCart}
+            />
           }
         />
-        <Route path="cart" element={<Cart />} />
+        <Route path="cart" element={<Cart cart={cart} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
