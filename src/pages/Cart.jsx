@@ -1,6 +1,6 @@
 import React from "react";
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, handleRemoveFromCart }) => {
   const getLineTotal = (item) => {
     return (item.quantity * item.price).toFixed(2);
   };
@@ -18,6 +18,7 @@ const Cart = ({ cart }) => {
               <th>Price</th>
               <th>Quantity</th>
               <th>Line Total</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -27,6 +28,14 @@ const Cart = ({ cart }) => {
                 <td>${item.price}</td>
                 <td>{item.quantity}</td>
                 <td>${getLineTotal(item)}</td>
+                <td>
+                  <button
+                    onClick={() => handleRemoveFromCart(item.id)}
+                    className="btn btn-danger"
+                  >
+                    Remove
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
