@@ -1,21 +1,47 @@
+import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Category from "../components/Category";
 import Hero from "../components/Hero";
 
 const Home = ({ allProducts, allCategories }) => {
+  // State to track the selected category
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+
+  // Event handler to set the selected category
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
+  // Filter products based on the selected category
+  const filteredProducts =
+    selectedCategory === "All Categories"
+      ? allProducts
+      : allProducts.filter((product) => product.category === selectedCategory);
+
   return (
     <main className="m-5">
       <Hero />
       <div role="tablist" className="tabs grid-cols-5 tabs-boxed">
-        <a role="tab" className="tab tab-active">
+        <a
+          role="tab"
+          className={`tab ${
+            selectedCategory === "All Categories" ? "tab-active" : ""
+          }`}
+          onClick={() => handleCategorySelect("All Categories")}
+        >
           All Categories
         </a>
         {allCategories.map((category, index) => (
-          <Category key={index} category={category} />
+          <Category
+            key={index}
+            category={category}
+            isActive={selectedCategory === category}
+            onCategorySelect={handleCategorySelect}
+          />
         ))}
       </div>
       <div className="flex flex-wrap gap-5 justify-center">
-        {allProducts.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
