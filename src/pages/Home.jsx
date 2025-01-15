@@ -1,8 +1,9 @@
+import React from "react";
 import ProductCard from "../components/ProductCard";
 import Category from "../components/Category";
 import Hero from "../components/Hero";
 
-const Home = ({ allProducts, allCategories }) => {
+const Home = ({ allProducts, allCategories, handleAddCart }) => {
   return (
     <main className="m-5">
       <Hero />
@@ -16,7 +17,11 @@ const Home = ({ allProducts, allCategories }) => {
       </div>
       <div className="flex flex-wrap gap-5 justify-center">
         {allProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            handleAddToCart={handleAddCart}
+          />
         ))}
       </div>
     </main>
