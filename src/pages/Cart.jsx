@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../Contexts";
 
-const Cart = ({ cart, handleRemoveFromCart, handleUpdateQuantity }) => {
+const Cart = ({ handleRemoveFromCart, handleUpdateQuantity }) => {
+  const cart = useContext(CartContext);
   const getLineTotal = (item) => {
     return (item.quantity * item.price).toFixed(2);
   };

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Category from "../components/Category";
 import Hero from "../components/Hero";
+import { AllCategoriesContext, AllProductsContext } from "../Contexts";
 
-const Home = ({ allProducts, allCategories, handleAddCart }) => {
+const Home = ({ handleAddCart }) => {
+  const allCategories = useContext(AllCategoriesContext);
+  const allProducts = useContext(AllProductsContext);
+
   // State to track the selected category
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
 

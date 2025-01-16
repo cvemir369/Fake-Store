@@ -6,6 +6,11 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
+import {
+  AllProductsContext,
+  AllCategoriesContext,
+  CartContext,
+} from "./Contexts";
 
 function App() {
   const [allProducts, setAllProducts] = useState([]);
@@ -87,29 +92,28 @@ function App() {
   return (
     <Router>
       <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              allProducts={allProducts}
-              allCategories={allCategories}
-              handleAddCart={handleAddCart}
-            />
-          }
-        />
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              cart={cart}
-              handleRemoveFromCart={handleRemoveFromCart}
-              handleUpdateQuantity={handleUpdateQuantity}
-            />
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AllCategoriesContext.Provider value={allCategories}>
+        <AllProductsContext.Provider value={allProducts}>
+          <CartContext.Provider value={cart}>
+            <Routes>
+              <Route
+                path="/"
+                element={<Home handleAddCart={handleAddCart} />}
+              />
+              <Route
+                path="/cart"
+                element={
+                  <Cart
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleUpdateQuantity={handleUpdateQuantity}
+                  />
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </CartContext.Provider>
+        </AllProductsContext.Provider>
+      </AllCategoriesContext.Provider>
       <Footer />
     </Router>
   );
