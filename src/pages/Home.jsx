@@ -51,6 +51,8 @@ const Home = ({ handleAddCart }) => {
             key={product.id}
             product={product}
             handleAddToCart={handleAddCart}
+            handleCategorySelect={handleCategorySelect}
+            selectedCategory={selectedCategory}
           />
         ))}
       </div>

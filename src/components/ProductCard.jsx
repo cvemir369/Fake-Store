@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-const ProductCard = ({ product, handleAddToCart }) => {
+const ProductCard = ({
+  product,
+  handleAddToCart,
+  handleCategorySelect,
+  selectedCategory,
+}) => {
   const [quantity, setQuantity] = useState(1);
 
   const incrementQuantity = () => {
@@ -50,8 +55,19 @@ const ProductCard = ({ product, handleAddToCart }) => {
             Add to cart
           </button>
         </div>
-        <div className="link text-xs mt-3">
-          see more from {product.category}
+        <div
+          onClick={() => {
+            handleCategorySelect(
+              selectedCategory !== product.category
+                ? product.category
+                : "All Categories"
+            );
+          }}
+          className="link text-xs mt-3"
+        >
+          {selectedCategory !== product.category
+            ? `see more from ${product.category}`
+            : "see all categories"}
         </div>
       </div>
     </div>
