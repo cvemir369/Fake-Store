@@ -26,7 +26,11 @@ const Home = ({ handleAddCart }) => {
   return (
     <>
       <Hero />
-      <div role="tablist" className="tabs grid-cols-5 tabs-boxed items-center">
+      <div
+        role="tablist"
+        className="tabs grid-cols-5 tabs-boxed items-center"
+        id="999"
+      >
         <a
           role="tab"
           className={`tab ${
