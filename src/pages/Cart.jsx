@@ -1,8 +1,18 @@
 import React from "react";
 
-const Cart = ({ cart, handleRemoveFromCart }) => {
+const Cart = ({ cart, handleRemoveFromCart, handleUpdateQuantity }) => {
   const getLineTotal = (item) => {
     return (item.quantity * item.price).toFixed(2);
+  };
+
+  const incrementQuantity = (item) => {
+    handleUpdateQuantity(item.id, item.quantity + 1);
+  };
+
+  const decrementQuantity = (item) => {
+    if (item.quantity > 1) {
+      handleUpdateQuantity(item.id, item.quantity - 1);
+    }
   };
 
   return (
@@ -26,7 +36,21 @@ const Cart = ({ cart, handleRemoveFromCart }) => {
               <tr key={item.id}>
                 <td>{item.title}</td>
                 <td>${item.price}</td>
-                <td>{item.quantity}</td>
+                <td>
+                  <button
+                    onClick={() => decrementQuantity(item)}
+                    className="btn btn-outline btn-sm"
+                  >
+                    -
+                  </button>
+                  {item.quantity}
+                  <button
+                    onClick={() => incrementQuantity(item)}
+                    className="btn btn-outline btn-sm"
+                  >
+                    +
+                  </button>
+                </td>
                 <td>${getLineTotal(item)}</td>
                 <td>
                   <button
