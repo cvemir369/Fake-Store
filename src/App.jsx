@@ -92,28 +92,30 @@ function App() {
   return (
     <Router>
       <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
-      <AllCategoriesContext.Provider value={allCategories}>
-        <AllProductsContext.Provider value={allProducts}>
-          <CartContext.Provider value={cart}>
-            <Routes>
-              <Route
-                path="/"
-                element={<Home handleAddCart={handleAddCart} />}
-              />
-              <Route
-                path="/cart"
-                element={
-                  <Cart
-                    handleRemoveFromCart={handleRemoveFromCart}
-                    handleUpdateQuantity={handleUpdateQuantity}
-                  />
-                }
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </CartContext.Provider>
-        </AllProductsContext.Provider>
-      </AllCategoriesContext.Provider>
+      <main className="m-5">
+        <AllCategoriesContext.Provider value={allCategories}>
+          <AllProductsContext.Provider value={allProducts}>
+            <CartContext.Provider value={cart}>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Home handleAddCart={handleAddCart} />}
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <Cart
+                      handleRemoveFromCart={handleRemoveFromCart}
+                      handleUpdateQuantity={handleUpdateQuantity}
+                    />
+                  }
+                />
+                <Route path="/*" element={<NotFound />} />
+              </Routes>
+            </CartContext.Provider>
+          </AllProductsContext.Provider>
+        </AllCategoriesContext.Provider>
+      </main>
       <Footer />
     </Router>
   );

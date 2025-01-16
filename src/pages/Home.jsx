@@ -24,7 +24,7 @@ const Home = ({ handleAddCart }) => {
       : allProducts.filter((product) => product.category === selectedCategory);
 
   return (
-    <main className="m-5">
+    <>
       <Hero />
       <div role="tablist" className="tabs grid-cols-5 tabs-boxed items-center">
         <a
@@ -54,7 +54,7 @@ const Home = ({ handleAddCart }) => {
           />
         ))}
       </div>
-    </main>
+    </>
   );
 };
 
