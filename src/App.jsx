@@ -92,7 +92,7 @@ function App() {
   return (
     <Router>
       <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
-      <main className="m-5">
+      <main className="flex-grow flex flex-col items-center justify-center">
         <AllCategoriesContext.Provider value={allCategories}>
           <AllProductsContext.Provider value={allProducts}>
             <CartContext.Provider value={cart}>
