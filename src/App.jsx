@@ -1,8 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -18,6 +16,22 @@ function App() {
   const [allProducts, setAllProducts] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("cart"));
+    if (savedCart) {
+      setCart(savedCart);
+    }
+
+    getAllProducts();
+    getAllCategories();
+  }, []);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
 
   const getAllProducts = async () => {
     try {
@@ -58,6 +72,13 @@ function App() {
     setCart(updatedCart);
   };
 
+  const handleUpdateQuantity = (productId, newQuantity) => {
+    const updatedCart = cart.map((item) =>
+      item.id === productId ? { ...item, quantity: newQuantity } : item
+    );
+    setCart(updatedCart);
+  };
+
   const getCartCount = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
@@ -67,11 +88,6 @@ function App() {
       .reduce((total, item) => total + item.quantity * item.price, 0)
       .toFixed(2);
   };
-
-  useEffect(() => {
-    getAllProducts();
-    getAllCategories();
-  }, []);
 
   return (
     <Router>
@@ -86,7 +102,12 @@ function App() {
               />
               <Route
                 path="/cart"
-                element={<Cart handleRemoveFromCart={handleRemoveFromCart} />}
+                element={
+                  <Cart
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    handleUpdateQuantity={handleUpdateQuantity}
+                  />
+                }
               />
               <Route path="*" element={<NotFound />} />
             </Routes>
