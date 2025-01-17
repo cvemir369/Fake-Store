@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { HeaderContext } from "../Contexts";
 
-const Header = ({ cartCount, cartTotal }) => {
+const Header = () => {
+  const { cartCount, cartTotal } = useContext(HeaderContext);
   const closeMenu = () => {
     const elem = document.activeElement;
     if (elem) {
