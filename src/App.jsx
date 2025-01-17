@@ -11,6 +11,7 @@ import {
   AllCategoriesContext,
   CartContext,
 } from "./Contexts";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [allProducts, setAllProducts] = useState([]);
@@ -65,11 +66,14 @@ function App() {
       updatedCart.push({ ...product, quantity });
     }
     setCart(updatedCart);
+    toast.success("Added to cart!");
   };
 
   const handleRemoveFromCart = (productId) => {
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart);
+    toast.success("Removed from cart!");
+    localStorage.removeItem("cart");
   };
 
   const handleUpdateQuantity = (productId, newQuantity) => {
@@ -91,29 +95,32 @@ function App() {
 
   return (
     <Router>
+      <Toaster />
       <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
-      <AllCategoriesContext.Provider value={allCategories}>
-        <AllProductsContext.Provider value={allProducts}>
-          <CartContext.Provider value={cart}>
-            <Routes>
-              <Route
-                path="/"
-                element={<Home handleAddCart={handleAddCart} />}
-              />
-              <Route
-                path="/cart"
-                element={
-                  <Cart
-                    handleRemoveFromCart={handleRemoveFromCart}
-                    handleUpdateQuantity={handleUpdateQuantity}
-                  />
-                }
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </CartContext.Provider>
-        </AllProductsContext.Provider>
-      </AllCategoriesContext.Provider>
+      <main className="flex-grow flex flex-col items-center justify-center">
+        <AllCategoriesContext.Provider value={allCategories}>
+          <AllProductsContext.Provider value={allProducts}>
+            <CartContext.Provider value={cart}>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Home handleAddCart={handleAddCart} />}
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <Cart
+                      handleRemoveFromCart={handleRemoveFromCart}
+                      handleUpdateQuantity={handleUpdateQuantity}
+                    />
+                  }
+                />
+                <Route path="/*" element={<NotFound />} />
+              </Routes>
+            </CartContext.Provider>
+          </AllProductsContext.Provider>
+        </AllCategoriesContext.Provider>
+      </main>
       <Footer />
     </Router>
   );

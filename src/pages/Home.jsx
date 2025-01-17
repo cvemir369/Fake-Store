@@ -24,14 +24,18 @@ const Home = ({ handleAddCart }) => {
       : allProducts.filter((product) => product.category === selectedCategory);
 
   return (
-    <main className="m-5">
+    <>
       <Hero />
-      <div role="tablist" className="tabs grid-cols-5 tabs-boxed">
+      <div
+        role="tablist"
+        className="tabs grid-cols-5 tabs-boxed items-center"
+        id="999"
+      >
         <a
           role="tab"
           className={`tab ${
             selectedCategory === "All Categories" ? "tab-active" : ""
-          }`}
+          } text-xs font-semibold p-2 h-full`}
           onClick={() => handleCategorySelect("All Categories")}
         >
           All Categories
@@ -51,10 +55,12 @@ const Home = ({ handleAddCart }) => {
             key={product.id}
             product={product}
             handleAddToCart={handleAddCart}
+            handleCategorySelect={handleCategorySelect}
+            selectedCategory={selectedCategory}
           />
         ))}
       </div>
-    </main>
+    </>
   );
 };
 

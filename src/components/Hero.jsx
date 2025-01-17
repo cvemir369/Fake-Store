@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <div className="hero bg-base-200 min-h-60 m-3 rounded-xl">
+    <div className="hero bg-base-200 min-h-60 rounded-xl mb-5">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-4xl font-bold">
@@ -10,7 +10,9 @@ const Hero = () => {
             Discover premium products at unbeatable prices. Free shipping on all
             orders above $50, 30-Day Returns!
           </p>
-          <button className="btn btn-primary">Shop Now</button>
+          <a href="/#999" className="btn btn-primary">
+            Shop Now
+          </a>
         </div>
       </div>
     </div>
