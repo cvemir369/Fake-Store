@@ -11,7 +11,7 @@ const Header = ({ cartCount, cartTotal }) => {
     <header className="navbar bg-base-100">
       <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-2xl">
-          🛒 Fake Store
+          🛒 eCommerce
         </Link>
       </div>
 
