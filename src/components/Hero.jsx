@@ -10,9 +10,9 @@ const Hero = () => {
             Discover premium products at unbeatable prices. Free shipping on all
             orders above $50, 30-Day Returns!
           </p>
-          <button className="btn btn-primary">
-            <a href="/#999">Shop Now</a>
-          </button>
+          <a href="/#999" className="btn btn-primary">
+            Shop Now
+          </a>
         </div>
       </div>
     </div>
