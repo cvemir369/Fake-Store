@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-const ProductCard = ({ product, handleAddToCart }) => {
+const ProductCard = ({
+  product,
+  handleAddToCart,
+  handleCategorySelect,
+  selectedCategory,
+}) => {
   const [quantity, setQuantity] = useState(1);
 
   const incrementQuantity = () => {
@@ -22,10 +27,11 @@ const ProductCard = ({ product, handleAddToCart }) => {
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title">{product.title}</h2>
-        <p>${product.price}</p>
-        <div className="btn btn-sm">more from {product.category}...</div>
+        <p className="flex items-end font-semibold text-2xl mt-3">
+          ${product.price}
+        </p>
 
-        <div className="flex justify-center items-center mt-4">
+        <div className="flex justify-center items-center mt-1">
           <button
             onClick={decrementQuantity}
             className="btn btn-outline btn-sm mx-2"
@@ -48,6 +54,20 @@ const ProductCard = ({ product, handleAddToCart }) => {
           >
             Add to cart
           </button>
+        </div>
+        <div
+          onClick={() => {
+            handleCategorySelect(
+              selectedCategory !== product.category
+                ? product.category
+                : "All Categories"
+            );
+          }}
+          className="link text-xs mt-3"
+        >
+          {selectedCategory !== product.category
+            ? `see more from ${product.category}`
+            : "see all categories"}
         </div>
       </div>
     </div>
