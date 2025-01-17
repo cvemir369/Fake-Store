@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
@@ -10,6 +9,8 @@ import {
   AllProductsContext,
   AllCategoriesContext,
   CartContext,
+  HeaderContext,
+  HomeContext,
 } from "./Contexts";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -96,32 +97,27 @@ function App() {
   return (
     <Router>
       <Toaster />
-      <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
-      <main className="flex-grow flex flex-col items-center justify-center">
+      <HeaderContext.Provider
+        value={{ cartCount: getCartCount(), cartTotal: getCartTotal() }}
+      >
         <AllCategoriesContext.Provider value={allCategories}>
           <AllProductsContext.Provider value={allProducts}>
-            <CartContext.Provider value={cart}>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<Home handleAddCart={handleAddCart} />}
-                />
-                <Route
-                  path="/cart"
-                  element={
-                    <Cart
-                      handleRemoveFromCart={handleRemoveFromCart}
-                      handleUpdateQuantity={handleUpdateQuantity}
-                    />
-                  }
-                />
-                <Route path="/*" element={<NotFound />} />
-              </Routes>
+            <CartContext.Provider
+              value={{ cart, handleRemoveFromCart, handleUpdateQuantity }}
+            >
+              <HomeContext.Provider value={{ handleAddCart }}>
+                <Layout>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/*" element={<NotFound />} />
+                  </Routes>
+                </Layout>
+              </HomeContext.Provider>
             </CartContext.Provider>
           </AllProductsContext.Provider>
         </AllCategoriesContext.Provider>
-      </main>
-      <Footer />
+      </HeaderContext.Provider>
     </Router>
   );
 }
