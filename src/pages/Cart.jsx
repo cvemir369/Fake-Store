@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { CartContext } from "../Contexts";
 
-const Cart = ({ handleRemoveFromCart, handleUpdateQuantity }) => {
-  const cart = useContext(CartContext);
+const Cart = () => {
+  const { cart, handleRemoveFromCart, handleUpdateQuantity } =
+    useContext(CartContext);
   const getLineTotal = (item) => {
     return (item.quantity * item.price).toFixed(2);
   };

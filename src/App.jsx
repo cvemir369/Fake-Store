@@ -10,6 +10,8 @@ import {
   AllProductsContext,
   AllCategoriesContext,
   CartContext,
+  HeaderContext,
+  HomeContext,
 } from "./Contexts";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -96,27 +98,24 @@ function App() {
   return (
     <Router>
       <Toaster />
-      <Header cartCount={getCartCount()} cartTotal={getCartTotal()} />
+      <HeaderContext.Provider
+        value={{ cartCount: getCartCount(), cartTotal: getCartTotal() }}
+      >
+        <Header />
+      </HeaderContext.Provider>
       <main className="flex-grow flex flex-col items-center justify-center">
         <AllCategoriesContext.Provider value={allCategories}>
           <AllProductsContext.Provider value={allProducts}>
-            <CartContext.Provider value={cart}>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<Home handleAddCart={handleAddCart} />}
-                />
-                <Route
-                  path="/cart"
-                  element={
-                    <Cart
-                      handleRemoveFromCart={handleRemoveFromCart}
-                      handleUpdateQuantity={handleUpdateQuantity}
-                    />
-                  }
-                />
-                <Route path="/*" element={<NotFound />} />
-              </Routes>
+            <CartContext.Provider
+              value={{ cart, handleRemoveFromCart, handleUpdateQuantity }}
+            >
+              <HomeContext.Provider value={{ handleAddCart }}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/*" element={<NotFound />} />
+                </Routes>
+              </HomeContext.Provider>
             </CartContext.Provider>
           </AllProductsContext.Provider>
         </AllCategoriesContext.Provider>
