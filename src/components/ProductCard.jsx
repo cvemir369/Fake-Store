@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { CartContext } from "../Contexts";
 
-const ProductCard = ({
-  product,
-  handleAddToCart,
-  handleCategorySelect,
-  selectedCategory,
-}) => {
+const ProductCard = ({ product, handleCategorySelect, selectedCategory }) => {
   const [quantity, setQuantity] = useState(1);
+  const { handleAddToCart } = useContext(CartContext);
 
   const incrementQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -50,7 +47,7 @@ const ProductCard = ({
         <div className="card-actions mt-4">
           <button
             className="btn btn-primary"
-            onClick={() => handleAddToCart(product, quantity)} // передаем товар и количество
+            onClick={() => handleAddToCart(product, quantity)}
           >
             Add to cart
           </button>
