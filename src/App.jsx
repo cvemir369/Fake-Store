@@ -9,22 +9,17 @@ import {
   AllProductsContext,
   AllCategoriesContext,
   CartContext,
-  HeaderContext,
-  HomeContext,
 } from "./Contexts";
 import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [allProducts, setAllProducts] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart"));
-    if (savedCart) {
-      setCart(savedCart);
-    }
-
     getAllProducts();
     getAllCategories();
   }, []);
@@ -55,7 +50,7 @@ function App() {
     }
   };
 
-  const handleAddCart = (product, quantity) => {
+  const handleAddToCart = (product, quantity) => {
     const updatedCart = [...cart];
     const productIndex = updatedCart.findIndex(
       (item) => item.id === product.id
@@ -97,27 +92,30 @@ function App() {
   return (
     <Router>
       <Toaster />
-      <HeaderContext.Provider
-        value={{ cartCount: getCartCount(), cartTotal: getCartTotal() }}
-      >
-        <AllCategoriesContext.Provider value={allCategories}>
-          <AllProductsContext.Provider value={allProducts}>
-            <CartContext.Provider
-              value={{ cart, handleRemoveFromCart, handleUpdateQuantity }}
-            >
-              <HomeContext.Provider value={{ handleAddCart }}>
-                <Layout>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/*" element={<NotFound />} />
-                  </Routes>
-                </Layout>
-              </HomeContext.Provider>
-            </CartContext.Provider>
-          </AllProductsContext.Provider>
-        </AllCategoriesContext.Provider>
-      </HeaderContext.Provider>
+
+      <AllCategoriesContext.Provider value={allCategories}>
+        <AllProductsContext.Provider value={allProducts}>
+          <CartContext.Provider
+            value={{
+              cart,
+              setCart,
+              handleAddToCart,
+              handleRemoveFromCart,
+              handleUpdateQuantity,
+              getCartCount: getCartCount(),
+              getCartTotal: getCartTotal(),
+            }}
+          >
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          </CartContext.Provider>
+        </AllProductsContext.Provider>
+      </AllCategoriesContext.Provider>
     </Router>
   );
 }

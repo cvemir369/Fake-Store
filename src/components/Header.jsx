@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import React, { useContext } from "react";
-import { HeaderContext } from "../Contexts";
+import { CartContext } from "../Contexts";
 
 const Header = () => {
-  const { cartCount, cartTotal } = useContext(HeaderContext);
+  const { getCartCount, getCartTotal } = useContext(CartContext);
   const closeMenu = () => {
     const elem = document.activeElement;
     if (elem) {
@@ -41,7 +41,9 @@ const Header = () => {
                 />
               </svg>
 
-              <span className="badge badge-sm indicator-item">{cartCount}</span>
+              <span className="badge badge-sm indicator-item">
+                {getCartCount}
+              </span>
             </div>
           </div>
 
@@ -50,8 +52,8 @@ const Header = () => {
             className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
           >
             <div className="card-body">
-              <span className="text-lg font-bold">{cartCount} Items</span>
-              <span className="text-info">Subtotal: ${cartTotal}</span>
+              <span className="text-lg font-bold">{getCartCount} Items</span>
+              <span className="text-info">Subtotal: ${getCartTotal}</span>
               <div className="card-actions">
                 <Link
                   to="/cart"

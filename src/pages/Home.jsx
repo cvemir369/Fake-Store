@@ -3,16 +3,11 @@ import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Category from "../components/Category";
 import Hero from "../components/Hero";
-import {
-  AllCategoriesContext,
-  AllProductsContext,
-  HomeContext,
-} from "../Contexts";
+import { AllCategoriesContext, AllProductsContext } from "../Contexts";
 
 const Home = () => {
   const allCategories = useContext(AllCategoriesContext);
   const allProducts = useContext(AllProductsContext);
-  const { handleAddCart } = useContext(HomeContext);
 
   // State to track the selected category
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
@@ -59,7 +54,6 @@ const Home = () => {
           <ProductCard
             key={product.id}
             product={product}
-            handleAddToCart={handleAddCart}
             handleCategorySelect={handleCategorySelect}
             selectedCategory={selectedCategory}
           />
